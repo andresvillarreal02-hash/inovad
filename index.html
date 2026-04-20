@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INOVAD – Maquinaria Industrial para Procesamiento de Carne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111317;
+    --steel: #1c2027;
+    --iron: #252a33;
+    --mid: #3a4150;
+    --gray: #6b7584;
+    --light-gray: #a0a8b4;
+    --off-white: #e8eaed;
+    --white: #f5f6f8;
+    --red: #b8241a;
+    --red-dark: #8c1a12;
+    --red-glow: rgba(184,36,26,0.15);
+    --accent: #c8310e;
+    --gold: #c89b3c;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-cond: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--red); }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links {
+    display: flex; gap: 2.4rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light-gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    font-family: var(--font-cond);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--red);
+    border: none; cursor: pointer;
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden;
+    padding: 0 5%;
+    padding-top: 72px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(105deg, rgba(10,10,10,0.97) 0%, rgba(10,10,10,0.88) 45%, rgba(10,10,10,0.5) 100%),
+      url('https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=1600&q=80') center/cover no-repeat;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-accent-line {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, transparent, var(--red), transparent);
+    opacity: 0.6;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 800px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-cond);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 40px; height: 1px; background: var(--red);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--red);
+    display: block;
+  }
+  .hero-subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--light-gray);
+    max-width: 540px;
+    line-height: 1.75;
+    margin-bottom: 2.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--red);
+    padding: 16px 32px;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute;
+    inset: 0; background: rgba(255,255,255,0.08);
+    transform: translateX(-100%); transition: transform 0.3s;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 15px 30px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--white); color: var(--white); }
+
+  .hero-stats {
+    position: absolute; bottom: 60px; right: 5%;
+    display: flex; gap: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .stat {
+    text-align: right;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 0.03em;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label {
+    font-family: var(--font-cond);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 5%; }
+  .section-tag {
+    font-family: var(--font-cond);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .section-tag::before {
+    content: ''; width: 28px; height: 1px; background: var(--red);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+  .section-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--light-gray);
+    line-height: 1.8;
+    max-width: 540px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--iron), transparent);
+    margin: 0 5%;
+  }
+
+  /* ─── PROPUESTA DE VALOR ─── */
+  #valor {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  #valor::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .valor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .valor-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .valor-item {
+    background: var(--steel);
+    padding: 28px 24px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .valor-item:hover {
+    border-color: var(--red);
+    background: var(--iron);
+  }
+  .valor-icon {
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .valor-item h4 {
+    font-family: var(--font-cond);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .valor-item p {
+    font-size: 0.85rem;
+    color: var(--light-gray);
+    line-height: 1.6;
+  }
+  .valor-image-block {
+    position: relative;
+  }
+  .valor-img-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .valor-img-wrap img {
+    width: 100%; height: 440px; object-fit: cover;
+    display: block;
+    filter: grayscale(20%);
+    transition: transform 0.5s;
+  }
+  .valor-img-wrap:hover img { transform: scale(1.03); }
+  .valor-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 60%);
+  }
+  .valor-badge {
+    position: absolute; bottom: 24px; left: 24px;
+    background: var(--red);
+    padding: 12px 20px;
+    font-family: var(--font-cond);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  /* ─── CATÁLOGO ─── */
+  #catalogo { background: var(--black); }
+  .catalog-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+  }
+  .product-card {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+    cursor: default;
+    group: true;
+  }
+  .product-card-inner { padding: 36px 28px; position: relative; z-index: 2; }
+  .product-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .product-card:hover::before { transform: scaleX(1); }
+  .product-card-bg {
+    position: absolute; inset: 0;
+    background: var(--steel);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.4s;
+    z-index: 1;
+  }
+  .product-card:hover .product-card-bg { transform: scaleY(1); }
+  .product-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    position: absolute; top: 16px; right: 20px;
+    letter-spacing: -0.02em;
+    transition: color 0.4s;
+  }
+  .product-card:hover .product-num { color: rgba(255,255,255,0.07); }
+  .product-icon-wrap {
+    width: 52px; height: 52px;
+    background: var(--red-glow);
+    border: 1px solid rgba(184,36,26,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .product-card h3 {
+    font-family: var(--font-cond);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .product-card p {
+    font-size: 0.88rem;
+    color: var(--light-gray);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .product-specs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .spec-tag {
+    font-family: var(--font-cond);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    border: 1px solid var(--iron);
+    padding: 4px 10px;
+  }
+
+  /* ─── BENEFICIOS ─── */
+  #beneficios {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+  #beneficios::after {
+    content: 'INOVAD';
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 18vw;
+    color: rgba(255,255,255,0.015);
+    bottom: -20px; right: -20px;
+    letter-spacing: 0.05em;
+    pointer-events: none; user-select: none;
+    line-height: 1;
+  }
+  .benefits-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .benefit-list { display: flex; flex-direction: column; gap: 2px; }
+  .benefit-row {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 24px;
+    background: var(--steel);
+    border-left: 3px solid transparent;
+    cursor: default;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .benefit-row:hover {
+    border-left-color: var(--red);
+    background: var(--iron);
+  }
+  .benefit-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .benefit-row h4 {
+    font-family: var(--font-cond);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .benefit-row p {
+    font-size: 0.87rem;
+    color: var(--light-gray);
+    line-height: 1.6;
+  }
+  .benefits-visual {
+    position: relative; z-index: 1;
+  }
+  .cert-stack {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .cert-block {
+    background: var(--steel);
+    padding: 24px 28px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .cert-block-label {
+    font-family: var(--font-cond);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 4px;
+  }
+  .cert-block-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+  .cert-block-value span { color: var(--red); }
+  .cert-block-icon { font-size: 2rem; opacity: 0.4; }
+
+  /* ─── TESTIMONIOS ─── */
+  #confianza { background: var(--black); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    margin-top: 60px;
+  }
+  .testi-card {
+    background: var(--dark);
+    padding: 36px 30px;
+    position: relative;
+    border-top: 2px solid var(--iron);
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-top-color: var(--red); }
+  .testi-quote {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: var(--red);
+    line-height: 0.6;
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+  .testi-text {
+    font-size: 0.95rem;
+    color: var(--off-white);
+    line-height: 1.8;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .testi-author {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .testi-avatar {
+    width: 44px; height: 44px;
+    background: var(--iron);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .testi-name {
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .testi-role {
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  .logos-strip {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--iron);
+  }
+  .logos-label {
+    font-family: var(--font-cond);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .logos-row {
+    display: flex; justify-content: center; align-items: center;
+    gap: 60px; flex-wrap: wrap;
+  }
+  .logo-placeholder {
+    font-family: var(--font-cond);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    transition: color 0.2s;
+    cursor: default;
+  }
+  .logo-placeholder:hover { color: var(--gray); }
+
+  /* ─── PROCESO ─── */
+  #proceso {
+    background: var(--steel);
+    position: relative; overflow: hidden;
+  }
+  #proceso::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  .proceso-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    position: relative; z-index: 1;
+  }
+  .step-card {
+    background: var(--dark);
+    padding: 40px 28px;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .step-card:hover { background: var(--iron); }
+  .step-card::after {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 0; height: 0;
+    border-left: 28px solid transparent;
+    border-top: 28px solid var(--steel);
+  }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1; margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .step-icon-wrap {
+    width: 48px; height: 48px;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  .step-card h3 {
+    font-family: var(--font-cond);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .step-card p {
+    font-size: 0.87rem;
+    color: var(--light-gray);
+    line-height: 1.7;
+  }
+  .step-connector {
+    position: absolute; top: 52px; right: -1px;
+    width: 20px; height: 2px;
+    background: var(--red);
+    opacity: 0.4; z-index: 10;
+  }
+
+  /* ─── CTA ─── */
+  #cta {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+    padding: 120px 5%;
+    text-align: center;
+  }
+  #cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(184,36,26,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+  .cta-eyebrow {
+    font-family: var(--font-cond);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.2rem;
+  }
+  .cta-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--light-gray);
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+  .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+  /* ─── CONTACTO ─── */
+  #contacto {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    min-height: 60vh;
+  }
+  .contact-left {
+    background: var(--dark);
+    padding: 80px 6%;
+  }
+  .contact-right {
+    background: var(--red);
+    padding: 80px 6%;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-info-list { margin-top: 40px; display: flex; flex-direction: column; gap: 28px; }
+  .contact-info-item {
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .contact-info-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--steel);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .contact-info-label {
+    font-family: var(--font-cond);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 4px;
+  }
+  .contact-info-value {
+    font-size: 0.95rem;
+    color: var(--off-white);
+    line-height: 1.5;
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 12px; }
+  .contact-form-title {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .contact-form-subtitle {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-family: var(--font-cond);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .form-input, .form-textarea {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-input:focus, .form-textarea:focus { border-color: rgba(255,255,255,0.6); }
+  .form-textarea { min-height: 100px; resize: vertical; }
+  .form-submit {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 16px 32px;
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--dark); }
+  .form-success {
+    display: none;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 24px;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .form-success h4 {
+    font-family: var(--font-cond);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .form-success p { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--iron);
+    padding: 32px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy {
+    font-size: 0.78rem;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+  .footer-links {
+    display: flex; gap: 1.5rem; list-style: none;
+  }
+  .footer-links a {
+    font-family: var(--font-cond);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ─── WHATSAPP ─── */
+  .wa-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    width: 58px; height: 58px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse-wa 2.5s infinite;
+  }
+  .wa-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+    animation: none;
+  }
+  .wa-btn svg { width: 30px; height: 30px; }
+  @keyframes pulse-wa {
+    0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.35); }
+    50% { box-shadow: 0 4px 28px rgba(37,211,102,0.6), 0 0 0 8px rgba(37,211,102,0.08); }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .hero-stats { position: relative; bottom: auto; right: auto; margin-top: 40px; justify-content: flex-start; }
+    .valor-grid { grid-template-columns: 1fr; gap: 40px; }
+    .valor-features { grid-template-columns: 1fr; }
+    .benefits-layout { grid-template-columns: 1fr; gap: 40px; }
+    .cert-stack { display: none; }
+    .proceso-steps { grid-template-columns: 1fr 1fr; }
+    #contacto { grid-template-columns: 1fr; }
+    .contact-right { order: -1; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 70px 5%; }
+    .proceso-steps { grid-template-columns: 1fr; }
+    .hero-title { font-size: 3rem; }
+  }
+
+  /* ─── NAV MOBILE MENU ─── */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 99;
+    background: var(--black);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">INOV<span>AD</span></a>
+  <ul class="nav-links">
+    <li><a href="#valor">Nosotros</a></li>
+    <li><a href="#catalogo">Productos</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Solicitar Cotización</a>
+  <div class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#valor" class="menu-link">Nosotros</a>
+  <a href="#catalogo" class="menu-link">Productos</a>
+  <a href="#proceso" class="menu-link">Proceso</a>
+  <a href="#contacto" class="menu-link">Contacto</a>
+  <a href="#contacto" class="btn-primary menu-link">Solicitar Cotización</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-accent-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Maquinaria Industrial · Sector Cárnico</div>
+    <h1 class="hero-title">
+      Equipamiento<br>
+      <em>de alto rendimiento</em><br>
+      para la industria cárnica
+    </h1>
+    <p class="hero-subtitle">
+      Diseñamos y suministramos maquinaria especializada para plantas de procesamiento de carne a escala industrial. Precisión de ingeniería, durabilidad comprobada y soporte técnico continuo.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">
+        <span>Solicitar Cotización</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#catalogo" class="btn-secondary">Ver Catálogo</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">15<span>+</span></div>
+      <div class="stat-label">Años en el sector</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">300<span>+</span></div>
+      <div class="stat-label">Instalaciones activas</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98<span>%</span></div>
+      <div class="stat-label">Satisfacción del cliente</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROPUESTA DE VALOR -->
+<section id="valor">
+  <div class="valor-grid">
+    <div>
+      <div class="section-tag reveal">Propuesta de Valor</div>
+      <h2 class="section-title reveal reveal-delay-1">Lo que diferencia<br>a INOVAD</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        Trabajamos con plantas de procesamiento de carne que requieren rendimiento constante, cumplimiento normativo y equipos capaces de operar en condiciones industriales exigentes. Nuestra propuesta se construye sobre cuatro pilares.
+      </p>
+      <div class="valor-features" style="margin-top:36px;">
+        <div class="valor-item reveal reveal-delay-1">
+          <span class="valor-icon">⚙️</span>
+          <h4>Ingeniería de precisión</h4>
+          <p>Equipos diseñados para tolerancias industriales estrictas, con materiales de grado alimenticio certificados.</p>
+        </div>
+        <div class="valor-item reveal reveal-delay-2">
+          <span class="valor-icon">📐</span>
+          <h4>Configuración a medida</h4>
+          <p>Adaptamos cada equipo a las condiciones de su planta: capacidad, espacio, voltaje y tipo de producto.</p>
+        </div>
+        <div class="valor-item reveal reveal-delay-3">
+          <span class="valor-icon">🔧</span>
+          <h4>Soporte técnico activo</h4>
+          <p>Asistencia técnica presencial y remota, disponibilidad de refacciones y mantenimiento preventivo programado.</p>
+        </div>
+        <div class="valor-item reveal reveal-delay-4">
+          <span class="valor-icon">📋</span>
+          <h4>Cumplimiento normativo</h4>
+          <p>Equipos que cumplen con normativas sanitarias vigentes para industria alimentaria y procesamiento de proteínas.</p>
+        </div>
+      </div>
+    </div>
+    <div class="valor-image-block reveal">
+      <div class="valor-img-wrap">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Planta de procesamiento industrial">
+        <div class="valor-img-overlay"></div>
+        <div class="valor-badge">Tecnología Industrial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CATÁLOGO -->
+<section id="catalogo">
+  <div class="catalog-header">
+    <div>
+      <div class="section-tag reveal">Catálogo de Productos</div>
+      <h2 class="section-title reveal reveal-delay-1">Maquinaria<br>especializada</h2>
+    </div>
+    <p class="section-desc reveal reveal-delay-2" style="max-width:300px; text-align:right;">
+      Línea completa de equipos para cada etapa del procesamiento cárnico industrial.
+    </p>
+  </div>
+  <div class="catalog-grid">
+
+    <div class="product-card reveal">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">01</div>
+        <div class="product-icon-wrap">🔩</div>
+        <h3>Molinos Industriales</h3>
+        <p>Sistemas de molienda de carne con discos intercambiables para diferentes granulometrías. Construidos en acero inoxidable 304/316 con motores trifásicos de alta eficiencia.</p>
+        <div class="product-specs">
+          <span class="spec-tag">500–5,000 kg/h</span>
+          <span class="spec-tag">Inox 316</span>
+          <span class="spec-tag">CIP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">02</div>
+        <div class="product-icon-wrap">🌀</div>
+        <h3>Embutidoras Automáticas</h3>
+        <p>Embutidoras de pistón y tornillo sinfín para líneas de producción continua. Compatibles con tripa natural, colágeno y celulosa. Sistema de dosificación controlado por PLC.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Automático</span>
+          <span class="spec-tag">PLC</span>
+          <span class="spec-tag">Alta cadencia</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">03</div>
+        <div class="product-icon-wrap">🪚</div>
+        <h3>Sierras Cárnicas</h3>
+        <p>Sierras de cinta y circulares para corte de canales y piezas congeladas. Cuerpo en acero con guías de corte ajustables y sistemas de seguridad integrados.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Cinta / Circular</span>
+          <span class="spec-tag">Canal completo</span>
+          <span class="spec-tag">Congelado</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-3">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">04</div>
+        <div class="product-icon-wrap">🥩</div>
+        <h3>Cuteadoras / Bowl Cutters</h3>
+        <p>Procesadoras de alta velocidad para la elaboración de pastas finas, emulsiones y productos restructurados. Cuencos de 60 a 400 litros con variador de frecuencia.</p>
+        <div class="product-specs">
+          <span class="spec-tag">60–400 L</span>
+          <span class="spec-tag">Emulsión fina</span>
+          <span class="spec-tag">VFD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">05</div>
+        <div class="product-icon-wrap">🌊</div>
+        <h3>Masajeadoras al Vacío</h3>
+        <p>Tumbling machines para marinado y ablandamiento por presión negativa. Ciclos programables, carga frontal con tambor en acero inoxidable pulido sanitario.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Vacío continuo</span>
+          <span class="spec-tag">Programable</span>
+          <span class="spec-tag">50–2,000 L</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-card-bg"></div>
+      <div class="product-card-inner">
+        <div class="product-num">06</div>
+        <div class="product-icon-wrap">📦</div>
+        <h3>Sistemas de Porcionado</h3>
+        <p>Divisoras y formadoras de porciones para hamburguesas, nuggets y filetes. Control de peso con precisión de ±2 g y alta velocidad de ciclo.</p>
+        <div class="product-specs">
+          <span class="spec-tag">±2 g precisión</span>
+          <span class="spec-tag">Multiforma</span>
+          <span class="spec-tag">Alta velocidad</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="benefits-layout">
+    <div>
+      <div class="section-tag reveal">Beneficios operacionales</div>
+      <h2 class="section-title reveal reveal-delay-1">Impacto real<br>en su operación</h2>
+      <p class="section-desc reveal reveal-delay-2" style="margin-bottom:40px;">
+        La elección de maquinaria adecuada impacta directamente en los costos de producción, la consistencia del producto y la rentabilidad del negocio.
+      </p>
+      <div class="benefit-list">
+        <div class="benefit-row reveal reveal-delay-1">
+          <span class="benefit-icon">📈</span>
+          <div>
+            <h4>Incremento de productividad</h4>
+            <p>Equipos diseñados para operación continua de múltiples turnos con mínimas paradas. Capacidades que escalan con su demanda.</p>
+          </div>
+        </div>
+        <div class="benefit-row reveal reveal-delay-2">
+          <span class="benefit-icon">💰</span>
+          <div>
+            <h4>Reducción de costos operativos</h4>
+            <p>Menor consumo energético por motor y diseño eficiente. Reducción de desperdicios con sistemas de corte y porcionado de precisión.</p>
+          </div>
+        </div>
+        <div class="benefit-row reveal reveal-delay-3">
+          <span class="benefit-icon">🏗️</span>
+          <div>
+            <h4>Durabilidad y confiabilidad</h4>
+            <p>Materiales de primer nivel. Mantenimiento preventivo que prolonga la vida útil del equipo más allá del estándar del sector.</p>
+          </div>
+        </div>
+        <div class="benefit-row reveal reveal-delay-4">
+          <span class="benefit-icon">🛠️</span>
+          <div>
+            <h4>Soporte técnico permanente</h4>
+            <p>Equipo de servicio certificado para diagnóstico, reparación y capacitación de operadores en sitio o de forma remota.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="benefits-visual reveal">
+      <div class="cert-stack">
+        <div class="cert-block">
+          <div>
+            <div class="cert-block-label">Capacidad de proceso</div>
+            <div class="cert-block-value">5,000<span>+ kg/h</span></div>
+          </div>
+          <div class="cert-block-icon">⚡</div>
+        </div>
+        <div class="cert-block">
+          <div>
+            <div class="cert-block-label">Tiempo de respuesta técnica</div>
+            <div class="cert-block-value">24<span>h</span></div>
+          </div>
+          <div class="cert-block-icon">🔧</div>
+        </div>
+        <div class="cert-block">
+          <div>
+            <div class="cert-block-label">Vida útil garantizada</div>
+            <div class="cert-block-value">10<span>+ años</span></div>
+          </div>
+          <div class="cert-block-icon">🏗️</div>
+        </div>
+        <div class="cert-block">
+          <div>
+            <div class="cert-block-label">Reducción de desperdicio</div>
+            <div class="cert-block-value">hasta <span>30%</span></div>
+          </div>
+          <div class="cert-block-icon">📉</div>
+        </div>
+        <div class="cert-block">
+          <div>
+            <div class="cert-block-label">Disponibilidad de refacciones</div>
+            <div class="cert-block-value">365<span> días</span></div>
+          </div>
+          <div class="cert-block-icon">📦</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONFIANZA -->
+<section id="confianza">
+  <div class="section-tag reveal">Testimonios</div>
+  <h2 class="section-title reveal reveal-delay-1">Lo que dicen<br>nuestros clientes</h2>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal reveal-delay-1">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">La línea de embutidoras que instalamos con INOVAD nos permitió duplicar la producción en turno nocturno sin incrementar personal. La asesoría técnica previa fue determinante para elegir el equipo correcto.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">GM</div>
+        <div>
+          <div class="testi-name">Ing. G. Mendoza</div>
+          <div class="testi-role">Director de Planta · Procesadora del Norte</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-2">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Después de tres años operando con la maquinaria de INOVAD, el nivel de servicio posventa y disponibilidad de refacciones sigue siendo el mismo que al inicio. Eso, en el sector industrial, no es menor.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">CR</div>
+        <div>
+          <div class="testi-name">C. Ramírez</div>
+          <div class="testi-role">Gerente de Operaciones · Carnes Premium S.A.</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-3">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Como distribuidor regional, necesitaba un proveedor que diera garantías reales. INOVAD cumplió en tiempos de entrega, documentación técnica y capacitación al usuario final. Un proveedor con quien hacer crecer el negocio.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">LV</div>
+        <div>
+          <div class="testi-name">L. Vega</div>
+          <div class="testi-role">Director Comercial · Distribuidora Agro-Tec</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="logos-strip reveal">
+    <p class="logos-label">Empresas que operan con maquinaria INOVAD</p>
+    <div class="logos-row">
+      <span class="logo-placeholder">Carnes del Norte</span>
+      <span class="logo-placeholder">FoodPro Industrial</span>
+      <span class="logo-placeholder">Grupo Cárnico MX</span>
+      <span class="logo-placeholder">Agro-Tec Dist.</span>
+      <span class="logo-placeholder">Proteínas del Sur</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="section-tag reveal">Metodología</div>
+  <h2 class="section-title reveal reveal-delay-1">Nuestro proceso<br>de trabajo</h2>
+  <p class="section-desc reveal reveal-delay-2">
+    Cada proyecto comienza con una comprensión precisa de su operación. No ofrecemos soluciones genéricas.
+  </p>
+  <div class="proceso-steps">
+    <div class="step-card reveal reveal-delay-1">
+      <div class="step-num">01</div>
+      <div class="step-icon-wrap">🔍</div>
+      <h3>Diagnóstico técnico</h3>
+      <p>Evaluamos su planta, capacidad instalada, volúmenes de producción y requerimientos específicos antes de cualquier propuesta.</p>
+    </div>
+    <div class="step-card reveal reveal-delay-2">
+      <div class="step-num">02</div>
+      <div class="step-icon-wrap">📄</div>
+      <h3>Propuesta técnica</h3>
+      <p>Elaboramos una cotización detallada con especificaciones técnicas, plazos de entrega y condiciones de garantía.</p>
+    </div>
+    <div class="step-card reveal reveal-delay-3">
+      <div class="step-num">03</div>
+      <div class="step-icon-wrap">🚚</div>
+      <h3>Entrega e instalación</h3>
+      <p>Coordinamos logística, instalación en sitio y puesta en marcha del equipo con nuestro equipo técnico certificado.</p>
+    </div>
+    <div class="step-card reveal reveal-delay-4">
+      <div class="step-num">04</div>
+      <div class="step-icon-wrap">🛡️</div>
+      <h3>Soporte continuo</h3>
+      <p>Mantenimiento preventivo, capacitación de operadores y disponibilidad de refacciones durante toda la vida útil del equipo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="cta-eyebrow reveal">Solicitud de Cotización</div>
+    <h2 class="cta-title reveal reveal-delay-1">¿Listo para optimizar<br>su producción?</h2>
+    <p class="cta-desc reveal reveal-delay-2">
+      Cuéntenos sobre su operación. Nuestro equipo técnico analizará sus requerimientos y le presentará una propuesta adaptada a sus condiciones de planta.
+    </p>
+    <div class="cta-actions reveal reveal-delay-3">
+      <a href="#contacto" class="btn-primary">
+        Solicitar Cotización
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://wa.me/521234567890?text=Hola%2C+estoy+interesado+en+cotizar+maquinaria+INOVAD" target="_blank" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contact-left">
+    <div class="section-tag">Información de contacto</div>
+    <h2 class="section-title" style="font-size:2.8rem;">Estamos<br>disponibles</h2>
+    <div class="contact-info-list">
+      <div class="contact-info-item">
+        <div class="contact-info-icon">📞</div>
+        <div>
+          <div class="contact-info-label">Teléfono</div>
+          <div class="contact-info-value">+52 (123) 456 7890<br>+52 (123) 456 7891</div>
+        </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-info-icon">📧</div>
+        <div>
+          <div class="contact-info-label">Correo electrónico</div>
+          <div class="contact-info-value">ventas@inovad.com<br>soporte@inovad.com</div>
+        </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-info-icon">📍</div>
+        <div>
+          <div class="contact-info-label">Ubicación</div>
+          <div class="contact-info-value">Parque Industrial del Norte<br>Monterrey, Nuevo León, México</div>
+        </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-info-icon">🕐</div>
+        <div>
+          <div class="contact-info-label">Horario de atención</div>
+          <div class="contact-info-value">Lunes a Viernes: 8:00 – 18:00 h<br>Sábado: 9:00 – 13:00 h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <h3 class="contact-form-title">Solicite<br>su cotización</h3>
+    <p class="contact-form-subtitle">Complete el formulario y un especialista técnico se pondrá en contacto en menos de 24 horas hábiles.</p>
+    <div class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre completo *</label>
+          <input type="text" class="form-input" placeholder="Ej. Juan García" id="f-nombre">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empresa *</label>
+          <input type="text" class="form-input" placeholder="Nombre de su empresa" id="f-empresa">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Teléfono *</label>
+          <input type="tel" class="form-input" placeholder="+52 xxx xxx xxxx" id="f-tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Correo electrónico *</label>
+          <input type="email" class="form-input" placeholder="correo@empresa.com" id="f-email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Producto de interés</label>
+        <input type="text" class="form-input" placeholder="Ej. Molinos industriales, embutidoras…" id="f-producto">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción de su requerimiento</label>
+        <textarea class="form-textarea" placeholder="Capacidad requerida, tipo de producto, condiciones de planta…" id="f-mensaje"></textarea>
+      </div>
+      <button class="form-submit" id="submitBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Enviar Solicitud
+      </button>
+    </div>
+    <div class="form-success" id="formSuccess">
+      <h4>✔ Solicitud recibida</h4>
+      <p>Un especialista INOVAD se pondrá en contacto en menos de 24 horas hábiles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">INOV<span>AD</span></a>
+  <ul class="footer-links">
+    <li><a href="#valor">Nosotros</a></li>
+    <li><a href="#catalogo">Productos</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 INOVAD · Maquinaria Industrial Cárnica</span>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/521234567890?text=Hola%2C+me+interesa+conocer+m%C3%A1s+sobre+la+maquinaria+INOVAD" target="_blank" class="wa-btn" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // NAV HAMBURGER
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // NAV SCROLL
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.style.background = window.scrollY > 60
+      ? 'rgba(10,10,10,0.98)'
+      : 'rgba(10,10,10,0.92)';
+  });
+
+  // REVEAL ON SCROLL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FORM SUBMIT
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const empresa = document.getElementById('f-empresa').value.trim();
+    const tel = document.getElementById('f-tel').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    if (!nombre || !empresa || !tel || !email) {
+      alert('Por favor complete los campos obligatorios.');
+      return;
+    }
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
+</body>
+</html>
